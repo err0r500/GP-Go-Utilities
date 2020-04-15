@@ -1,4 +1,4 @@
-module github.com/VoodooTeam/GP-Smash-Go-Utilities
+module github.com/VoodooTeam/GP-Go-Utilities
 
 go 1.14
 

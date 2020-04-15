@@ -13,8 +13,16 @@ func HandleError(c *gin.Context, err error) bool {
 			c.JSON(e.Status, e)
 		default:
 			c.JSON(400, gin.H{"error": err.Error()})
-			return true
 		}
+		return true
+	}
+	return false
+}
+
+func HandleErrorNotFound(c *gin.Context, err error) bool {
+	if err != nil {
+		c.JSON(404, gin.H{"error": err.Error()})
+		return true
 	}
 	return false
 }
