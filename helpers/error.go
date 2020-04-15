@@ -6,13 +6,13 @@ import (
 
 // HTTPError implement ClientError
 type HTTPError struct {
-	Cause  error  `json:"error"`
-	Detail string `json:"detail"`
+	Cause  string `json:"error"`
+	Detail string `json:"message"`
 	Status int    `json:"code"`
 }
 
 func (e *HTTPError) Error() string {
-	return "[" + strconv.Itoa(e.Status) + "] " + e.Detail + " : " + e.Cause.Error()
+	return "[" + strconv.Itoa(e.Status) + "] " + e.Detail + " : " + e.Cause
 }
 
 func NewHTTPError(err error, status int, detail string) error {
@@ -20,7 +20,7 @@ func NewHTTPError(err error, status int, detail string) error {
 		return nil
 	}
 	return &HTTPError{
-		Cause:  err,
+		Cause:  err.Error(),
 		Detail: detail,
 		Status: status,
 	}
