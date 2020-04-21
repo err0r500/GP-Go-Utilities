@@ -4,6 +4,10 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+func SetLevel(level log.Level) {
+	log.SetLevel(level)
+}
+
 func Trace(args ...interface{}) {
 	log.Trace(args)
 }
