@@ -7,6 +7,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/VoodooTeam/GP-Go-Utilities/logger"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -82,7 +83,8 @@ func (c *Checkpoint) GetCheckpoint(streamName, shardID string) (string, error) {
 	var result appCheckpoint
 	err := c.conn.FindOne(context.TODO(), filter).Decode(&result)
 	if err != nil {
-		return "", nil
+		logger.Error("kinesis mongodb sotre - GetCheckpoint: ", err.Error())
+		return "", err
 	}
 
 	return result.SequenceNumber, nil
@@ -146,6 +148,7 @@ func (c *Checkpoint) save() error {
 
 		_, err := c.conn.UpdateOne(context.TODO(), filter, upsertCheckpoint)
 		if err != nil {
+			logger.Error("kinesis mongodb sotre - save: ", err.Error())
 			return err
 		}
 	}
