@@ -145,20 +145,18 @@ func (c *Checkpoint) save() error {
 		namespace := fmt.Sprintf("%s-%s", c.appName, key.streamName)
 		filter := bson.D{{"namespace", namespace}, {"shard_id", key.shardID}}
 
-		update := bson.M{
-			"$set": bson.M{
-				"namespace":      namespace,
-				"shardID":        key.shardID,
-				"sequenceNumber": sequenceNumber,
-			},
+		upsertCheckpoint := appCheckpoint{
+			Namespace:      namespace,
+			ShardID:        key.shardID,
+			SequenceNumber: sequenceNumber,
 		}
+		update := bson.M{"$set": upsertCheckpoint}
 
-		updateResult, err := c.conn.UpdateOne(context.TODO(), filter, update, options.Update().SetUpsert(true))
+		_, err := c.conn.UpdateOne(context.TODO(), filter, update, options.Update().SetUpsert(true))
 		if err != nil {
 			logger.Error("kinesis mongodb sotre - save: ", err.Error())
 			return err
 		}
-		logger.Info("kinesis mongodb sotre - save: ", updateResult)
 	}
 
 	return nil
