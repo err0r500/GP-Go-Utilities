@@ -82,7 +82,11 @@ func (c *Checkpoint) GetCheckpoint(streamName, shardID string) (string, error) {
 
 	var result appCheckpoint
 	err := c.conn.FindOne(context.TODO(), filter).Decode(&result)
+
 	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return "", nil
+		}
 		logger.Error("kinesis mongodb sotre - GetCheckpoint: ", err.Error())
 		return "", err
 	}
