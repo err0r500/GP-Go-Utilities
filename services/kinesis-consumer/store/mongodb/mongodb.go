@@ -71,7 +71,7 @@ func (c *Checkpoint) GetMaxInterval() time.Duration {
 type appCheckpoint struct {
 	Namespace      string `bson:"namespace"`
 	ShardID        string `bson:"shard_id"`
-	SequenceNumber string
+	SequenceNumber string `bson:"sequence_number"`
 }
 
 // GetCheckpoint determines if a checkpoint for a particular Shard exists.
@@ -150,7 +150,12 @@ func (c *Checkpoint) save() error {
 			ShardID:        key.shardID,
 			SequenceNumber: sequenceNumber,
 		}
-		update := bson.M{"$set": upsertCheckpoint}
+		update := bson.M{
+			"$set": upsertCheckpoint,
+			"$currentDate": bson.D{
+				{"updated_at", true},
+			},
+		}
 
 		_, err := c.conn.UpdateOne(context.TODO(), filter, update, options.Update().SetUpsert(true))
 		if err != nil {
