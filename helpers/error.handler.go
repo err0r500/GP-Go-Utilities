@@ -6,10 +6,16 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func HandleError(c *gin.Context, err error) bool {
+func HandleError(c *gin.Context, err error, rawData ...interface{}) bool {
 	if err != nil {
 		log.Error(err.Error())
-		bugsnag.Notify(err, c.Request.Context())
+
+		metadata := bugsnag.MetaData{}
+		for _, raw := range rawData {
+			metadata.AddStruct("metadata", raw)
+		}
+		bugsnag.Notify(err, c.Request.Context(), metadata)
+
 		switch e := err.(type) {
 		case *HTTPError:
 			c.JSON(e.Status, e)
