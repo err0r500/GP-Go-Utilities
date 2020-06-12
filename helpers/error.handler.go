@@ -14,7 +14,11 @@ func HandleError(c *gin.Context, err error, rawData ...interface{}) bool {
 		for _, raw := range rawData {
 			metadata.AddStruct("metadata", raw)
 		}
-		bugsnag.Notify(err, c.Request.Context(), metadata)
+		user := bugsnag.User{}
+		if userID := c.GetString("uid"); userID != "" {
+			user.Id = userID
+		}
+		bugsnag.Notify(err, c.Request.Context(), metadata, user)
 
 		switch e := err.(type) {
 		case *HTTPError:
