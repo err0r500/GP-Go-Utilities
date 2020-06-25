@@ -3,7 +3,7 @@ module github.com/VoodooTeam/GP-Go-Utilities
 go 1.14
 
 require (
-	github.com/aws/aws-sdk-go v1.32.8
+	github.com/aws/aws-sdk-go v1.32.9
 	github.com/bugsnag/bugsnag-go v1.5.3
 	github.com/bugsnag/panicwrap v1.2.0 // indirect
 	github.com/gin-gonic/gin v1.6.2
