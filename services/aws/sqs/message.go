@@ -23,8 +23,8 @@ func (m *Message) Body() string {
 	return *m.message.Body
 }
 
-func (m *Message) Type() string {
-	return *m.message.Attributes["type"]
+func (m *Message) Type() *string {
+	return m.message.MessageAttributes["type"].StringValue
 }
 
 // GetMessageID returns pointer of message id.

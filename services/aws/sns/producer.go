@@ -37,10 +37,10 @@ func (p *Producer) SendMessageJSONMarshal(msgType string, msgContent interface{}
 		return err
 	}
 
-	return p.SendMessage(string(msg), msgType)
+	return p.SendMessage(msgType, string(msg))
 }
 
-func (p *Producer) SendMessage(message string, msgType string) error {
+func (p *Producer) SendMessage(msgType string, message string) error {
 
 	_, err := p.svc.client.Publish(&sns.PublishInput{
 		TopicArn: p.topicARN,

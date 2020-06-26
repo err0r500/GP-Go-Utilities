@@ -76,9 +76,10 @@ func (c *Consumer) worker() {
 
 func retrieveSQSMessages(svc *SQS, queueURL *string) (*sqs.ReceiveMessageOutput, error) {
 	return svc.client.ReceiveMessage(&sqs.ReceiveMessageInput{
-		QueueUrl:            queueURL,
-		MaxNumberOfMessages: aws.Int64(sqsMaxMessages),
-		WaitTimeSeconds:     aws.Int64(sqsPollWaitSeconds),
+		QueueUrl:              queueURL,
+		MaxNumberOfMessages:   aws.Int64(sqsMaxMessages),
+		WaitTimeSeconds:       aws.Int64(sqsPollWaitSeconds),
+		MessageAttributeNames: []*string{aws.String("All")},
 	})
 }
 
