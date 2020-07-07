@@ -1,24 +1,16 @@
 package helpers
 
 import (
-	bugsnag "github.com/bugsnag/bugsnag-go"
+	"github.com/VoodooTeam/GP-Go-Utilities/logger"
 	"github.com/gin-gonic/gin"
-	log "github.com/sirupsen/logrus"
 )
 
 func HandleError(c *gin.Context, err error, rawData ...interface{}) bool {
 	if err != nil {
-		log.Error(err.Error())
-
-		metadata := bugsnag.MetaData{}
+		logger.Error(err.Error())
 		for _, raw := range rawData {
-			metadata.AddStruct("metadata", raw)
+			logger.Info(raw)
 		}
-		user := bugsnag.User{}
-		if userID := c.GetString("uid"); userID != "" {
-			user.Id = userID
-		}
-		bugsnag.Notify(err, c.Request.Context(), metadata, user)
 
 		switch e := err.(type) {
 		case *HTTPError:

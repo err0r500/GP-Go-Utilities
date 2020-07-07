@@ -39,3 +39,39 @@ func Fatal(args ...interface{}) {
 func Panic(args ...interface{}) {
 	log.Panic(args)
 }
+
+func Tracef(format string, args ...interface{}) {
+	log.Tracef(format, args...)
+}
+
+func Debugf(format string, args ...interface{}) {
+	log.Debugf(format, args...)
+}
+
+func Printf(format string, args ...interface{}) {
+	log.Printf(format, args...)
+}
+
+func Infof(format string, args ...interface{}) {
+	log.Infof(format, args...)
+}
+
+func Warnf(format string, args ...interface{}) {
+	log.Warnf(format, args...)
+}
+
+func Warningf(format string, args ...interface{}) {
+	log.Warningf(format, args...)
+}
+
+func Errorf(format string, args ...interface{}) {
+	log.Errorf(format, args...)
+}
+
+func Panicf(format string, args ...interface{}) {
+	log.Panicf(format, args...)
+}
+
+func Fatalf(format string, args ...interface{}) {
+	log.Fatalf(format, args...)
+}
