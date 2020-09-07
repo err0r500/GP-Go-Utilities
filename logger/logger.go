@@ -1,8 +1,14 @@
 package logger
 
 import (
+	nrlogrus "github.com/newrelic/go-agent/v3/integrations/nrlogrus"
+	newrelic "github.com/newrelic/go-agent/v3/newrelic"
 	log "github.com/sirupsen/logrus"
 )
+
+func StandardLogger() newrelic.Logger {
+	return nrlogrus.StandardLogger()
+}
 
 func SetLevel(level log.Level) {
 	log.SetLevel(level)
