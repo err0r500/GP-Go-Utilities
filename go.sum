@@ -99,6 +99,8 @@ github.com/newrelic/go-agent/v3 v3.0.0/go.mod h1:H28zDNUC0U/b7kLoY4EFOhuth10Xu/9
 github.com/newrelic/go-agent/v3 v3.8.1 h1:PzM7tOO7ojBxHxEXY/AQJ8bAKrM9vFeFbHPkTaVo8+Q=
 github.com/newrelic/go-agent/v3 v3.8.1/go.mod h1:1A1dssWBwzB7UemzRU6ZVaGDsI+cEn5/bNxI0wiYlIc=
 github.com/newrelic/go-agent/v3 v3.9.0 h1:5bcTbdk/Up5cIYIkQjCG92Y+uNoett9wmhuz4kPiFlM=
+github.com/newrelic/go-agent/v3/integrations/logcontext/nrlogrusplugin v1.0.0 h1:7HndNzw1x1P+SFa6z4hAiqbNymK0iCffHAaJ/xWkvT8=
+github.com/newrelic/go-agent/v3/integrations/logcontext/nrlogrusplugin v1.0.0/go.mod h1:ic8h8WNjeMpw5Y7HrqgFBXr16GegArKQDRCUkf3C/Kc=
 github.com/newrelic/go-agent/v3/integrations/nrlogrus v1.0.0 h1:qmAtZBKzuzxTkcBBfWHbeImk0Wxjooc522xaafANKJs=
 github.com/newrelic/go-agent/v3/integrations/nrlogrus v1.0.0/go.mod h1:JpiVn2lqR9Vk6Iq7mYGQPJhKEnthbba4QqM8Jb1JTW0=
 github.com/pelletier/go-toml v1.4.0/go.mod h1:PN7xzY2wHTK0K9p34ErDQMlFxa51Fk0OUruD3k1mMwo=
