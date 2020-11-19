@@ -1,6 +1,6 @@
 module github.com/VoodooTeam/GP-Go-Utilities
 
-go 1.14
+go 1.15
 
 require (
 	github.com/aws/aws-sdk-go v1.34.26
@@ -13,6 +13,7 @@ require (
 	github.com/newrelic/go-agent/v3 v3.9.0
 	github.com/newrelic/go-agent/v3/integrations/logcontext/nrlogrusplugin v1.0.0
 	github.com/newrelic/go-agent/v3/integrations/nrlogrus v1.0.0
+	github.com/newrelic/go-agent/v3/integrations/nrmongo v1.0.0
 	github.com/sirupsen/logrus v1.6.0
 	github.com/ugorji/go v1.1.8 // indirect
 	go.mongodb.org/mongo-driver v1.4.1
