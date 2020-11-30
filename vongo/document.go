@@ -5,6 +5,7 @@ import (
 	"errors"
 	"time"
 
+	"github.com/VoodooTeam/GP-Go-Utilities/logger"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -19,8 +20,8 @@ type Document interface {
 	TimeCreatedAtTrackerHook
 	TimeUpdatedAtTrackerHook
 
-	GetID() primitive.ObjectID
-	SetID(primitive.ObjectID)
+	GetID() interface{}
+	SetID(interface{})
 
 	BsonID() *bson.M
 }
@@ -56,7 +57,7 @@ func (d *DocumentModel) SetUpdatedAt(t time.Time) {
 
 // IsNew to ask Is the document new
 func (d *DocumentModel) IsNew() bool {
-	return d.GetID().IsZero()
+	return d.ID.IsZero()
 }
 
 /**
@@ -64,13 +65,21 @@ func (d *DocumentModel) IsNew() bool {
 **/
 
 // GetID satisfies the document interface
-func (d *DocumentModel) GetID() primitive.ObjectID {
+func (d *DocumentModel) GetID() interface{} {
+	if d.ID.IsZero() {
+		return nil
+	}
+
 	return d.ID
 }
 
 // SetID sets the ID for the document
-func (d *DocumentModel) SetID(id primitive.ObjectID) {
-	d.ID = id
+func (d *DocumentModel) SetID(id interface{}) {
+	if id, ok := id.(primitive.ObjectID); ok {
+		d.ID = id
+	} else {
+		logger.Errorf("DocumentModel cannot set ID")
+	}
 }
 
 // BsonID returns the document id using bson.M interface style
@@ -91,7 +100,7 @@ func Save(ctx context.Context, d Document) error {
 	}
 
 	id := d.GetID()
-	if !isNew && id.IsZero() {
+	if !isNew && id != nil {
 		return errors.New("New tracker says this document isn't new but there is no valid Id field")
 	}
 

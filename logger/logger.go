@@ -1,7 +1,10 @@
 package logger
 
 import (
+	"context"
+
 	"github.com/newrelic/go-agent/v3/integrations/logcontext/nrlogrusplugin"
+	"github.com/newrelic/go-agent/v3/integrations/nrgin"
 	"github.com/newrelic/go-agent/v3/integrations/nrlogrus"
 	"github.com/newrelic/go-agent/v3/newrelic"
 	log "github.com/sirupsen/logrus"
@@ -89,4 +92,85 @@ func Panicf(format string, args ...interface{}) {
 
 func Fatalf(format string, args ...interface{}) {
 	log.Fatalf(format, args...)
+}
+
+func TraceCf(c context.Context, format string, args ...interface{}) {
+	if txn := nrgin.Transaction(c); txn != nil {
+		ctx := newrelic.NewContext(context.Background(), txn)
+		log.WithContext(ctx).Tracef(format, args...)
+	} else {
+		log.Tracef(format, args...)
+	}
+}
+
+func DebugCf(c context.Context, format string, args ...interface{}) {
+	if txn := nrgin.Transaction(c); txn != nil {
+		ctx := newrelic.NewContext(context.Background(), txn)
+		log.WithContext(ctx).Debugf(format, args...)
+	} else {
+		log.Debugf(format, args...)
+	}
+}
+
+func PrintCf(c context.Context, format string, args ...interface{}) {
+	if txn := nrgin.Transaction(c); txn != nil {
+		ctx := newrelic.NewContext(context.Background(), txn)
+		log.WithContext(ctx).Printf(format, args...)
+	} else {
+		log.Printf(format, args...)
+	}
+}
+
+func InfoCf(c context.Context, format string, args ...interface{}) {
+	if txn := nrgin.Transaction(c); txn != nil {
+		ctx := newrelic.NewContext(context.Background(), txn)
+		log.WithContext(ctx).Infof(format, args...)
+	} else {
+		log.Infof(format, args...)
+	}
+}
+
+func WarnCf(c context.Context, format string, args ...interface{}) {
+	if txn := nrgin.Transaction(c); txn != nil {
+		ctx := newrelic.NewContext(context.Background(), txn)
+		log.WithContext(ctx).Warnf(format, args...)
+	} else {
+		log.Warnf(format, args...)
+	}
+}
+
+func WarningCf(c context.Context, format string, args ...interface{}) {
+	if txn := nrgin.Transaction(c); txn != nil {
+		ctx := newrelic.NewContext(context.Background(), txn)
+		log.WithContext(ctx).Warningf(format, args...)
+	} else {
+		log.Warningf(format, args...)
+	}
+}
+
+func ErrorCf(c context.Context, format string, args ...interface{}) {
+	if txn := nrgin.Transaction(c); txn != nil {
+		ctx := newrelic.NewContext(context.Background(), txn)
+		log.WithContext(ctx).Errorf(format, args...)
+	} else {
+		log.Errorf(format, args...)
+	}
+}
+
+func PanicCf(c context.Context, format string, args ...interface{}) {
+	if txn := nrgin.Transaction(c); txn != nil {
+		ctx := newrelic.NewContext(context.Background(), txn)
+		log.WithContext(ctx).Panicf(format, args...)
+	} else {
+		log.Panicf(format, args...)
+	}
+}
+
+func FatalCf(c context.Context, format string, args ...interface{}) {
+	if txn := nrgin.Transaction(c); txn != nil {
+		ctx := newrelic.NewContext(context.Background(), txn)
+		log.WithContext(ctx).Fatalf(format, args...)
+	} else {
+		log.Fatalf(format, args...)
+	}
 }
