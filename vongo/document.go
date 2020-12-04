@@ -99,16 +99,15 @@ func Save(ctx context.Context, d Document) error {
 		isNew = newt.IsNew()
 	}
 
-	id := d.GetID()
-	if !isNew && id != nil {
-		return errors.New("New tracker says this document isn't new but there is no valid Id field")
-	}
-
 	if isNew {
 		if err := Create(ctx, d); err != nil {
 			return err
 		}
 	} else {
+		if d.GetID() == nil {
+			return errors.New("New tracker says this document isn't new but there is no valid Id field")
+		}
+
 		if err := UpdateOne(ctx, d, d.BsonID()); err != nil {
 			return err
 		}
