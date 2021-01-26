@@ -3,20 +3,84 @@ package helpers
 import (
 	"bytes"
 	"context"
+	"crypto/tls"
+	"crypto/x509"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"net/http"
+	"os"
 	"strconv"
 
 	newrelic "github.com/newrelic/go-agent/v3/newrelic"
-	"golang.org/x/net/http2"
 )
 
 var client *http.Client
 
 func init() {
 	client = &http.Client{
-		Transport: &http2.Transport{},
+		// Transport: &http2.Transport{
+		// 	TLSClientConfig: tlsClientConfig(),
+		// },
+	}
+}
+
+func tlsClientConfig() *tls.Config {
+	var crt []byte
+	var err error
+	crtString := os.Getenv("TLS_LOCALHOST_PUBLIC_CRT")
+	if crtString != "" {
+		crt = []byte(crtString)
+	} else {
+		crt, err = ioutil.ReadFile("./cert/public.crt")
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	rootCAs := x509.NewCertPool()
+	rootCAs.AppendCertsFromPEM(crt)
+
+	return &tls.Config{
+		RootCAs:            rootCAs,
+		InsecureSkipVerify: false,
+		ServerName:         "localhost",
+	}
+}
+
+// TLSServerConfig method
+func TLSServerConfig() *tls.Config {
+	var crt, key []byte
+	var err error
+	crtString := os.Getenv("TLS_LOCAL_PUBLIC_CRT")
+	if crtString != "" {
+		crt = []byte(crtString)
+	} else {
+		crt, err = ioutil.ReadFile("./cert/public.crt")
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	keyString := os.Getenv("TLS_LOCAL_PRIVATE_KEY")
+	if keyString != "" {
+		key = []byte(keyString)
+	} else {
+		key, err = ioutil.ReadFile("./cert/private.key")
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	cert, err := tls.X509KeyPair(crt, key)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return &tls.Config{
+		Certificates: []tls.Certificate{cert},
+		ServerName:   "localhost",
 	}
 }
 
