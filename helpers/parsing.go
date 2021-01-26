@@ -2,6 +2,7 @@ package helpers
 
 import "encoding/json"
 
+// MapToStruct method
 func MapToStruct(data map[string]interface{}, target interface{}) error {
 
 	jsonData, err := json.Marshal(data)

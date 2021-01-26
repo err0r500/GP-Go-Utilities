@@ -15,6 +15,7 @@ func (e *HTTPError) Error() string {
 	return "[" + strconv.Itoa(e.Status) + "] " + e.Detail + " : " + e.Cause
 }
 
+// NewHTTPError builder
 func NewHTTPError(err error, status int, detail string) error {
 	if err == nil {
 		return nil

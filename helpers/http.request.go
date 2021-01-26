@@ -9,16 +9,18 @@ import (
 	"strconv"
 
 	newrelic "github.com/newrelic/go-agent/v3/newrelic"
+	"golang.org/x/net/http2"
 )
 
 var client *http.Client
 
 func init() {
-	client = &http.Client{}
-	http.DefaultTransport.(*http.Transport).MaxIdleConnsPerHost = 100
-	http.DefaultTransport.(*http.Transport).MaxIdleConns = 300
+	client = &http.Client{
+		Transport: &http2.Transport{},
+	}
 }
 
+// GetJson method
 func GetJson(c context.Context, url string, expectedCodeHTTPResponseCode int, target interface{}) error {
 	req, err := http.NewRequest("GET", url, nil)
 	txn := newrelic.FromContext(c)
@@ -54,6 +56,7 @@ func GetJson(c context.Context, url string, expectedCodeHTTPResponseCode int, ta
 	return nil
 }
 
+// PostJson method
 func PostJson(c context.Context, url string, expectedCodeHTTPResponseCode int, data, target interface{}) error {
 	bodyBytes, _ := json.Marshal(data)
 
@@ -92,6 +95,7 @@ func PostJson(c context.Context, url string, expectedCodeHTTPResponseCode int, d
 	return nil
 }
 
+// DeleteJson method
 func DeleteJson(c context.Context, url string, expectedCodeHTTPResponseCode int, data, target interface{}) error {
 	bodyBytes, _ := json.Marshal(data)
 
