@@ -19,11 +19,15 @@ import (
 var client *http.Client
 
 func init() {
-	client = &http.Client{
-		// Transport: &http2.Transport{
-		// 	TLSClientConfig: tlsClientConfig(),
-		// },
-	}
+	client = &http.Client{}
+	http.DefaultTransport.(*http.Transport).MaxIdleConnsPerHost = 100
+	http.DefaultTransport.(*http.Transport).MaxIdleConns = 300
+
+	// client = &http.Client{
+	// Transport: &http2.Transport{
+	// 	TLSClientConfig: tlsClientConfig(),
+	// },
+	// }
 }
 
 func tlsClientConfig() *tls.Config {
